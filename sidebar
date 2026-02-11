@@ -1,0 +1,112 @@
+import styles from "@/assets/styles/pages/documentation.module.css";
+import Input from "@/components/form/input";
+import Modal from "@/components/utility/modal";
+import SearchOverlay from "@/pages/public/documentation/search-overlay";
+import { MouseEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { sidebarItems } from "./docs-data";
+
+interface DocSidebarProps {
+  activeHeading: string;
+  activeSubHeading?: string;
+}
+
+function DocSidebar({ activeHeading, activeSubHeading }: DocSidebarProps) {
+  const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+
+  function changeHeadingHandler(e: MouseEvent, heading: string) {
+    const to =
+      heading === "Registration Process"
+        ? "registration"
+        : heading.toLowerCase();
+    navigate(to);
+    e.stopPropagation();
+  }
+
+  function changeSubHeadingHandler(
+    e: MouseEvent,
+    heading: string,
+    sub_heading: string
+  ) {
+    navigate({
+      pathname: `/docs/${heading.toLowerCase()}`,
+      hash: sub_heading
+    });
+    e.stopPropagation();
+  }
+
+  return (
+    <section className={`${styles.sidebar} bg-white border`}>
+      <div className="row mx-auto mb-3">
+        <div className="col-12">
+          <Input
+            id="search-doc"
+            type="search"
+            label="Search"
+            icon="search"
+            placeholder="Search Documentation"
+            onClick={() => setOpen(true)}
+            value={searchText}
+            readOnly
+          />
+        </div>
+      </div>
+
+      <div className={`row overflow-y-auto ${styles.headings}`}>
+        <div className="col-12">
+          <ul className="list-unstyled m-0">
+            {sidebarItems.map(item => (
+              <li
+                key={item.heading}
+                className={`pe-4 py-3 ${styles.subHeading} ${
+                  activeHeading === item.heading ? styles.active : ""
+                }`}
+                onClick={e => changeHeadingHandler(e, item.heading)}
+              >
+                <span className="d-block">
+                  <i
+                    className={`bi ${
+                      activeHeading === item.heading &&
+                      item.sub_headings?.length
+                        ? "bi-chevron-down"
+                        : "bi-chevron-right"
+                    } text-primary h2 px-3`}
+                  ></i>
+                  {item.heading}
+                </span>
+
+                {activeHeading === item.heading &&
+                  item.sub_headings?.map(sub => (
+                    <ul key={sub} className="list-unstyled ps-4">
+                      <li
+                        className={`ps-5 py-1 ${styles.subHeadingItem} ${
+                          activeSubHeading === sub ? styles.active : ""
+                        }`}
+                        onClick={e =>
+                          changeSubHeadingHandler(e, item.heading, sub)
+                        }
+                      >
+                        {sub}
+                      </li>
+                    </ul>
+                  ))}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <Modal open={open} close={setOpen} bodyClassName="px-4 py-3">
+        <SearchOverlay
+          searchText={searchText}
+          setSearchText={setSearchText}
+          closeModal={() => setOpen(false)}
+        />
+      </Modal>
+    </section>
+  );
+}
+
+export default DocSidebar;
