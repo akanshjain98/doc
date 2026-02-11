@@ -1,0 +1,92 @@
+// search-overlay.tsx
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import Input from "@/components/form/input";
+import { sidebarItems } from "./docs-data";
+
+interface SearchOverlayProps {
+  searchText: string;
+  setSearchText: (value: string) => void;
+  closeModal: () => void;
+}
+
+function SearchOverlay({
+  searchText,
+  setSearchText,
+  closeModal
+}: SearchOverlayProps) {
+  const navigate = useNavigate();
+
+  const results = useMemo(() => {
+    if (!searchText.trim()) return [];
+
+    const q = searchText.toLowerCase();
+    const matches: { heading: string; sub_heading?: string }[] = [];
+
+    sidebarItems.forEach(item => {
+      if (item.heading.toLowerCase().includes(q)) {
+        matches.push({ heading: item.heading });
+      }
+
+      item.sub_headings?.forEach(sub => {
+        if (sub.toLowerCase().includes(q)) {
+          matches.push({ heading: item.heading, sub_heading: sub });
+        }
+      });
+    });
+
+    return matches;
+  }, [searchText]);
+
+  function handleClick(heading: string, sub_heading?: string) {
+    if (sub_heading) {
+      navigate({
+        pathname: `/docs/${heading.toLowerCase()}`,
+        hash: sub_heading
+      });
+    } else {
+      const path =
+        heading === "Registration Process"
+          ? "registration"
+          : heading.toLowerCase();
+      navigate(`/docs/${path}`);
+    }
+
+    closeModal(); // ✅ CLOSE MODAL
+  }
+
+  return (
+    <>
+      <Input
+        id="doc-search"
+        type="search"
+        label="Search"
+        placeholder="Search documentation..."
+        value={searchText}
+        onChange={e => setSearchText(e.target.value)}
+        autoFocus
+      />
+
+      <ul className="list-unstyled mt-3">
+        {searchText && results.length === 0 && (
+          <li className="text-muted">No results found</li>
+        )}
+
+        {results.map((item, index) => (
+          <li
+            key={index}
+            className="py-2 border-bottom cursor-pointer"
+            onClick={() => handleClick(item.heading, item.sub_heading)}
+          >
+            <strong>{item.heading}</strong>
+            {item.sub_heading && (
+              <div className="text-muted ps-3">{item.sub_heading}</div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+export default SearchOverlay;
