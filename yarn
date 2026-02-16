@@ -1,0 +1,33 @@
+#16 [build  5/15] RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000     yarn install --immutable
+#16 83.99 ➤ YN0000: · Yarn 4.4.1
+#16 85.22 ➤ YN0000: ┌ Resolution step
+#16 196.4 ➤ YN0085: │ + app@link:../app::locator=backend%40workspace%3Apackages%2F*
+#16 196.4 ➤ YN0085: │ - @adobe/css-tools@npm:4.4.4, @asamuzakjp/css-color@npm:3.2.0, @asyncapi/avro-schema-parser@npm:3.0.24, @asyncapi/openapi-schema-parser@npm:3.0.24, and 549 more.
+#16 217.0 ➤ YN0000: └ Completed in 2m 12s
+#16 217.5 ➤ YN0000: ┌ Post-resolution validation
+#16 217.5 ➤ YN0060: │ @types/react is listed by your project with version 18.3.23 (pe7541), which doesn't satisfy what @material-ui/core and other dependencies request (but they have non-overlapping ranges!).
+#16 217.5 ➤ YN0060: │ react is listed by your project with version 18.3.1 (p8c7d2), which doesn't satisfy what @material-ui/core and other dependencies request (but they have non-overlapping ranges!).
+#16 217.6 ➤ YN0002: │ @internal/plugin-browsertab-backend@workspace:plugins/* doesn't provide webpack (pbaf57), requested by @backstage/cli.
+#16 217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide react-dom (p82fa8), requested by @backstage/plugin-scaffolder-react and other dependencies.
+#16 217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide react-router-dom (pfb945), requested by @backstage/plugin-scaffolder-react and other dependencies.
+#16 217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide webpack (p40f86), requested by @backstage/cli.
+#16 217.6 ➤ YN0002: │ root@workspace:. doesn't provide react-router-dom (p1c19f), requested by @drodil/backstage-plugin-search-backend-module-qeta.
+#16 217.6 ➤ YN0002: │ root@workspace:. doesn't provide webpack (p40c38), requested by @backstage/cli.
+#16 217.6 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+#16 217.6 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+#16 238.4 ➤ YN0028: │ The lockfile would have been modified by this install, which is explicitly forbidden.
+#16 238.4 ➤ YN0000: └ Completed in 21s 395ms
+#16 238.8 ➤ YN0000: · Failed with errors in 2m 35s
+#16 ERROR: process "/bin/sh -c yarn install --immutable" did not complete successfully: exit code: 1
+------
+> [build  5/15] RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000     yarn install --immutable:
+217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide react-dom (p82fa8), requested by @backstage/plugin-scaffolder-react and other dependencies.
+217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide react-router-dom (pfb945), requested by @backstage/plugin-scaffolder-react and other dependencies.
+217.6 ➤ YN0002: │ backend@workspace:packages/* doesn't provide webpack (p40f86), requested by @backstage/cli.
+217.6 ➤ YN0002: │ root@workspace:. doesn't provide react-router-dom (p1c19f), requested by @drodil/backstage-plugin-search-backend-module-qeta.
+217.6 ➤ YN0002: │ root@workspace:. doesn't provide webpack (p40c38), requested by @backstage/cli.
+217.6 ➤ YN0086: │ Some peer dependencies are incorrectly met by your project; run yarn explain peer-requirements <hash> for details, where <hash> is the six-letter p-prefixed code.
+217.6 ➤ YN0086: │ Some peer dependencies are incorrectly met by dependencies; run yarn explain peer-requirements for details.
+238.4 ➤ YN0028: │ The lockfile would have been modified by this install, which is explicitly forbidden.
+238.4 ➤ YN0000: └ Completed in 21s 395ms
+238.8 ➤ YN0000: · Failed with errors in 2m 35s
